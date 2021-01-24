@@ -17,7 +17,7 @@ const {
 
 
 //get latest blogs
-router.get('/new', async(req, res, next) => {
+router.get('/latest', async(req, res, next) => {
     try {
         const blog = await getlatestBlogs();
         res.json(blog);

@@ -9,7 +9,8 @@ const {
     follow,
     followers,
     unfollow,
-    deletefollowers
+    deletefollowers,
+    deleteuser
 } = require('../controllers/user');
 
 const router = express();
@@ -64,7 +65,16 @@ router.patch('/:id', async(req, res, next) => {
         next(e);
     }
 });
-//router.use(AuthMw);
+//delete user
+router.delete('/delete', async(req, res, next) => {
+    const { user: { id } } = req;
+    try {
+        const users = await deleteuser(id);
+        res.send("Deleted");
+    } catch (e) {
+        next(e);
+    }
+});
 //add follower
 router.post('/follow/:fid', async(req, res, next) => {
     const { params: { fid }, user: { id } } = req;

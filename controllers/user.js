@@ -32,7 +32,8 @@ const getById = (id) => User.findById(id).exec();
 
 //edit user
 const editOne = (id, data) => User.findByIdAndUpdate(id, data, { new: true }).exec();
-
+//delete user
+const deleteuser = (id) => User.findByIdAndDelete(id).exec();
 //following function
 const follow = (id, trgetid) => User.update({ "_id": id }, {
         $push: {
@@ -72,5 +73,6 @@ module.exports = {
     follow,
     followers,
     unfollow,
-    deletefollowers
+    deletefollowers,
+    deleteuser
 };
