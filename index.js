@@ -4,7 +4,8 @@ const routers = require('./routes/index');
 
 
 const app = express();
-mongoose.connect('mongodb://localhost:27017/bloger', { useUnifiedTopology: true });
+const { MONGODB_URI } = process.env;
+mongoose.connect(MONGODB_URI, { useUnifiedTopology: true });
 
 app.use(express.json());
 
