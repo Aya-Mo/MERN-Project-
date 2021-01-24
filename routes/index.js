@@ -6,7 +6,7 @@ const AuthMw = require('../middelwares/Auth');
 const router = express();
 
 router.use('/Blog', blogrouter, AuthMw);
-router.use('/User', userrouter);
+router.use('/User', userrouter, AuthMw);
 
 
 module.exports = router;

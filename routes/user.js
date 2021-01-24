@@ -4,6 +4,7 @@ const {
     create,
     login,
     getAll,
+    getById,
     editOne,
     follow,
     followers,
@@ -32,10 +33,22 @@ router.post('/login', async(req, res, next) => {
         next(e);
     }
 });
+
+router.use(AuthMw);
 //get all
 router.get('/', async(req, res, next) => {
     try {
         const users = await getAll();
+        res.json(users);
+    } catch (e) {
+        next(e);
+    }
+});
+//get by id
+router.get('/:id', async(req, res, next) => {
+    const { params: { id } } = req;
+    try {
+        const users = await getById(id);
         res.json(users);
     } catch (e) {
         next(e);
@@ -51,17 +64,7 @@ router.patch('/:id', async(req, res, next) => {
         next(e);
     }
 });
-// //follow
-// router.post('/follow/:id', async(req, res, next) => {
-//     const { params: { id } } = req;
-//     try {
-//         const user = await follow({ id });
-//         res.json(user);
-//     } catch (e) {
-//         next(e);
-//     }
-// });
-router.use(AuthMw);
+//router.use(AuthMw);
 //add follower
 router.post('/follow/:fid', async(req, res, next) => {
     const { params: { fid }, user: { id } } = req;
@@ -86,4 +89,5 @@ router.post('/unfollow/:fid', async(req, res, next) => {
         next(e);
     }
 });
+
 module.exports = router;

@@ -5,6 +5,7 @@ const asyncSign = promisify(jwt.sign);
 const User = require('../models/User');
 //resister
 const create = (user) => User.create(user);
+
 //login
 const login = async({ username, password }) => {
     //get user from db
@@ -25,8 +26,13 @@ const login = async({ username, password }) => {
 };
 //get all users
 const getAll = () => User.find({}).exec();
+
+//get user by id
+const getById = (id) => User.findById(id).exec();
+
 //edit user
 const editOne = (id, data) => User.findByIdAndUpdate(id, data, { new: true }).exec();
+
 //following function
 const follow = (id, trgetid) => User.update({ "_id": id }, {
         $push: {
@@ -35,18 +41,21 @@ const follow = (id, trgetid) => User.update({ "_id": id }, {
     }
 
 );
+
 //add followers
 const followers = (id, trgetid) => User.update({ "_id": trgetid }, {
     $push: {
         followers: id,
     }
 });
+
 //unfollow function
 const unfollow = (id, trgetid) => User.update({ "_id": id }, {
     $pull: {
         following: trgetid,
     }
 });
+
 //remove followers
 const deletefollowers = (id, trgetid) => User.update({ "_id": trgetid }, {
     $pull: {
@@ -58,6 +67,7 @@ module.exports = {
     create,
     login,
     getAll,
+    getById,
     editOne,
     follow,
     followers,

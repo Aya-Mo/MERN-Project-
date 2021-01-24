@@ -11,32 +11,20 @@ const {
     deleteone,
     getByTitle,
     getByTags,
-    getByAuther
+    getByAuther,
+    getlatestBlogs
 } = require('../controllers/blog');
 
 
-
-router.use(authMw);
-
-router.post('/', async(req, res, next) => {
-    const { body, user: { id } } = req;
-    console.log(id);
+//get latest blogs
+router.get('/new', async(req, res, next) => {
     try {
-        const blog = await create({...body, auther: id });
-        res.json(blog);
-    } catch (e) {
-        next(e);
-    }
-});
-//post blog 
-router.post('/', async(req, res, next) => {
-    const { body } = req;
-    try {
-        const blog = await create({...body });
+        const blog = await getlatestBlogs();
         res.json(blog);
 
     } catch (e) {
         next(e);
+
     }
 });
 //get all blogs
@@ -50,7 +38,18 @@ router.get('/', async(req, res, next) => {
     }
 });
 
-
+router.use(authMw);
+//post blog 
+router.post('/', async(req, res, next) => {
+    const { body, user: { id } } = req;
+    console.log(id);
+    try {
+        const blog = await create({...body, auther: id });
+        res.json(blog);
+    } catch (e) {
+        next(e);
+    }
+});
 //edit blog
 router.patch('/:id', async(req, res, next) => {
     const { params: { id }, body } = req;
