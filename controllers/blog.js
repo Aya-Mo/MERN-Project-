@@ -1,10 +1,11 @@
 const Blog = require('../models/Blog');
 
 const create = (blog) => Blog.create(blog);
-const getAll = (query) => Blog.find(query).exec();
 const getlatestBlogs = () => Blog.find().sort([
     ['createdAT', -1]
 ]).exec();
+const getAll = (query) => Blog.find(query).exec();
+
 const getById = (id) => Blog.findById(id).exec();
 const editOne = (id, body) => Blog.findByIdAndUpdate(id, body, { new: true }).exec();
 const deleteone = (id) => Blog.findByIdAndRemove(id).exec();
