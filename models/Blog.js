@@ -12,10 +12,7 @@ const blogschema = new Schema({
         type: String,
         required: true,
     },
-    photo: {
-        data: Buffer,
-        contentType: String,
-    },
+    photo: String,
     createdAt: {
         type: Date,
         default: Date.now(),

@@ -14,7 +14,16 @@ const {
     getByAuther,
     getlatestBlogs
 } = require('../controllers/blog');
-
+const multer = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'static/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
 
 //get latest blogs
 router.get('/latest', async(req, res, next) => {
@@ -41,15 +50,30 @@ router.get('/', async(req, res, next) => {
 router.use(authMw);
 //post blog 
 router.post('/', async(req, res, next) => {
-    const { body, user: { id } } = req;
-    console.log(id);
-    try {
-        const blog = await create({...body, auther: id });
-        res.json(blog);
-    } catch (e) {
-        next(e);
-    }
+    console.log(req.user);
+    const upload = multer({ storage: storage }).single("photo");
+
+    upload(req, res, function(err) {
+        console.log(req.user);
+        const { body, user: { id } } = req;
+        if (req.file != undefined)
+            body.photo = req.file.path;
+
+        create({...body, auther: id }).then(blog => res.json(blog)).catch(e => next(e));
+
+    });
+
 });
+// router.post('/', async(req, res, next) => {
+//     const { body, user: { id } } = req;
+//     console.log(id);
+//     try {
+//         const blog = await create({...body, auther: id });
+//         res.json(blog);
+//     } catch (e) {
+//         next(e);
+//     }
+// });
 //edit blog
 router.patch('/:id', async(req, res, next) => {
     const { params: { id }, body } = req;
