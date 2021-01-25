@@ -1,8 +1,8 @@
 const Blog = require('../models/Blog');
 
 const create = (blog) => Blog.create(blog);
-const getlatestBlogs = () => Blog.find().sort([
-    ['createdAT', -1]
+const getlatestBlogs = (query) => Blog.find(query).sort([
+    ['createdAt', -1]
 ]).exec();
 const getAll = (query) => Blog.find(query).exec();
 
