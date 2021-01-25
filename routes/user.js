@@ -49,8 +49,8 @@ router.get('/', async(req, res, next) => {
 router.get('/:id', async(req, res, next) => {
     const { params: { id } } = req;
     try {
-        const users = await getById(id);
-        res.json(users);
+        const user = await getById(id);
+        res.json(user);
     } catch (e) {
         next(e);
     }
@@ -59,17 +59,17 @@ router.get('/:id', async(req, res, next) => {
 router.patch('/:id', async(req, res, next) => {
     const { params: { id }, body } = req;
     try {
-        const users = await editOne(id, body, { new: true });
-        res.json(users);
+        const user = await editOne(id, body, { new: true });
+        res.json(user);
     } catch (e) {
         next(e);
     }
 });
 //delete user
-router.delete('/delete', async(req, res, next) => {
-    const { user: { id } } = req;
+router.delete('/delete/:id', async(req, res, next) => {
+    const { params: { id } } = req;
     try {
-        const users = await deleteuser(id);
+        const user = await deleteuser(id);
         res.send("Deleted");
     } catch (e) {
         next(e);

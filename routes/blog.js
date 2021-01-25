@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 });
 
 //get latest blogs
-router.get('/latest', async(req, res, next) => {
+router.get('/home', async(req, res, next) => {
     try {
         const blog = await getlatestBlogs();
         res.json(blog);
@@ -36,6 +36,9 @@ router.get('/latest', async(req, res, next) => {
 
     }
 });
+
+
+router.use(authMw);
 //get all blogs
 router.get('/', async(req, res, next) => {
 
@@ -46,9 +49,7 @@ router.get('/', async(req, res, next) => {
         next(e);
     }
 });
-
-router.use(authMw);
-//post blog 
+//post blog
 router.post('/', async(req, res, next) => {
     console.log(req.user);
     const upload = multer({ storage: storage }).single("photo");
