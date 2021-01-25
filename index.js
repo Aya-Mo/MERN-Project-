@@ -5,7 +5,8 @@ const routers = require('./routes/index');
 
 const app = express();
 const { MONGODB_URI } = process.env;
-mongoose.connect(MONGODB_URI, { useUnifiedTopology: true });
+mongoose.connect(MONGODB_URI, { useUnifiedTopology: true }).then(() => console.log('Database Connected Successfully')).catch((err) => console.log(err));
+
 
 app.use(express.json());
 
