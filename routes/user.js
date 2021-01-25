@@ -66,8 +66,8 @@ router.patch('/:id', async(req, res, next) => {
     }
 });
 //delete user
-router.delete('/delete/:id', async(req, res, next) => {
-    const { params: { id } } = req;
+router.delete('/delete', async(req, res, next) => {
+    const { user: { id } } = req;
     try {
         const user = await deleteuser(id);
         res.send("Deleted");
