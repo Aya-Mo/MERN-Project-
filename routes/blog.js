@@ -91,7 +91,7 @@ router.delete('/:id', async(req, res, next) => {
     const { params: { id } } = req;
     try {
         const blogs = await deleteone(id);
-        res.redirect('/');
+        res.redirect('/Blog/home');
     } catch (e) {
         next(e);
     }
